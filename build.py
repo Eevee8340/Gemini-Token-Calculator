@@ -6,7 +6,7 @@ from pathlib import Path
 def main():
     # Define paths
     base_dir = Path(__file__).parent.resolve()
-    main_script = base_dir / "src" / "main.py"
+    main_script = base_dir / "run.py"
     
     print("Building gemini-token-calculator executable with PyInstaller...")
     
