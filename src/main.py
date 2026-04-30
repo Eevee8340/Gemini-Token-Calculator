@@ -1,4 +1,6 @@
 import argparse
+import os
+import sys
 from datetime import datetime
 from rich.console import Console
 from .config import get_tmp_dir
@@ -6,6 +8,22 @@ from .parser import calculate_tokens
 from .display import display_stats
 
 console = Console()
+
+def is_run_from_explorer() -> bool:
+    """Returns True if the script was launched directly from Windows Explorer."""
+    if os.name != 'nt':
+        return False
+    try:
+        import ctypes
+        kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
+        # GetConsoleProcessList returns the number of processes attached to the console
+        # If run from cmd/powershell, there's at least the shell + this process (>=2).
+        # If launched directly, it's usually just this process (1) or with a launcher (2).
+        process_list = (ctypes.c_uint * 10)()
+        num_processes = kernel32.GetConsoleProcessList(process_list, 10)
+        return num_processes <= 2
+    except Exception:
+        return False
 
 def parse_date(date_str: str) -> datetime:
     """Helper to parse CLI date strings."""
@@ -47,6 +65,10 @@ def main():
         stats = calculate_tokens(tmp_dir, since=args.since, until=args.until)
 
     display_stats(stats, is_export_json=(args.export == 'json'), is_export_csv=(args.export == 'csv'))
+
+    if not args.export and is_run_from_explorer():
+        console.print("\n[dim]Press Enter to exit...[/dim]")
+        input()
 
 if __name__ == "__main__":
     main()
