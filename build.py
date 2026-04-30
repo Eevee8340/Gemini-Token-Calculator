@@ -21,10 +21,10 @@ def main():
     
     try:
         subprocess.run(cmd, check=True, cwd=base_dir)
-        print("\n✅ Build successful!")
+        print("\n[SUCCESS] Build successful!")
         print(f"Executable can be found in the 'dist' directory: {base_dir / 'dist'}")
     except subprocess.CalledProcessError as e:
-        print(f"\n❌ Build failed: {e}")
+        print(f"\n[ERROR] Build failed: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":
