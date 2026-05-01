@@ -45,6 +45,10 @@ gemini-token-calculator --export json > stats.json
 gemini-token-calculator --export csv > stats.csv
 ```
 
+## 🔗 Related Tools
+
+Looking for even more comprehensive token analysis? Check out **[Tokenex](https://github.com/Eevee8340/Tokenex)** — a powerful companion tool that calculates tokens across all editors, giving you a unified view of your AI-assisted development workflow.
+
 ## Building Locally
 To build the `.exe` yourself:
 ```bash
